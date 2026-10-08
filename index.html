@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VibeClocker — Essay Feedback</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="sea" aria-hidden="true">
+<svg viewBox="0 0 1200 140" preserveAspectRatio="none"><path fill="var(--wave)" d="M0 70 Q100 20 200 70 T400 70 T600 70 T800 70 T1000 70 T1200 70 V140 H0Z"/></svg>
+<svg viewBox="0 0 1200 140" preserveAspectRatio="none"><path fill="var(--wave)" d="M0 90 Q150 40 300 90 T600 90 T900 90 T1200 90 V140 H0Z"/></svg>
+</div>
+<div id="bubbles" aria-hidden="true"></div>
+
+<nav id="nav" hidden>
+<a class="brand" href="#home">🐚 VibeClocker</a>
+<button class="link" data-go="home">Home</button>
+<button class="link" data-go="write">Write &amp; upload</button>
+<button class="link" id="out">Log out</button>
+</nav>
+
+<main>
+<!-- AUTH -->
+<section id="v-auth" class="card auth" hidden>
+<div class="shell" aria-hidden="true">🐚</div>
+<h1 style="font-size:2.2rem">VibeClocker</h1>
+<p class="hint">Dip your essay in. Get kind, clear feedback back.</p>
+<div class="tabs" role="tablist">
+<button role="tab" id="t-in" aria-selected="true">Log in</button>
+<button role="tab" id="t-up" aria-selected="false">Sign up</button>
+</div>
+<div id="nameRow" hidden><label for="name">Your name</label><input id="name" type="text" autocomplete="name"></div>
+<label for="email">Email</label><input id="email" type="email" autocomplete="email">
+<label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password">
+<div class="err" id="autherr" role="alert"></div>
+<button class="btn" id="authbtn" style="width:100%;margin-top:6px">Log in</button>
+</section>
+
+<!-- HOME -->
+<section id="v-home" hidden>
+<div class="hero">
+<span class="fish" aria-hidden="true">🐠</span>
+<h1>Welcome aboard, <span id="who">sailor</span>.</h1>
+<p>VibeClocker is a calm place to get feedback on your writing. Bring a draft, pick a prompt if you need a spark, and we'll look at the current of your argument, the shape of your structure, and the polish of your sentences.</p>
+<div><button class="btn" data-go="write">Upload an essay</button></div>
+</div>
+
+<h2>About VibeClocker</h2>
+<div class="about">
+<div class="card"><h3>🧭 Clear direction</h3><p>Feedback on your thesis, organization, evidence and flow, so you know what to fix first.</p></div>
+<div class="card"><h3>🪸 Any format</h3><p>Upload a PDF, Word or text file, or paste up to 50,000 characters straight into the box.</p></div>
+<div class="card"><h3>🫧 Prompts on tap</h3><p>Stuck at the shoreline? Pick a prompt below and start writing with a topic in hand.</p></div>
+</div>
+
+<h2>Rules &amp; scoring</h2>
+<div class="rules">
+<div class="card"><h3>Essay rules</h3><ol>
+<li>Submit your own work, and credit anyone you quote.</li>
+<li>Stay within 50,000 characters, as a PDF, Word or TXT file or pasted text.</li>
+<li>Write at least 50 words so there is enough to assess.</li>
+<li>Name the source for facts, figures and quotes.</li>
+<li>Keep opinions marked as opinions, and don't pass hearsay off as fact.</li></ol></div>
+<div class="card"><h3>Four criteria, each scored 0 to 5</h3><ul>
+<li><strong>Grammar and mechanics</strong> <span class="tag">important</span> (30% of the total)</li>
+<li><strong>Facts vs. rumours</strong> <span class="tag">important</span> (30%)</li>
+<li><strong>Individualism</strong>: your own voice and ideas (20%)</li>
+<li><strong>Structure and clarity</strong> (20%)</li></ul>
+<p class="hint" style="margin-top:8px">0 = missing, 1 = weak, 2 = needs work, 3 = fair, 4 = strong, 5 = excellent.</p></div>
+<div class="card"><h3>How your essay is checked</h3><ul>
+<li>Grammar: spelling slips, repeated words, capitalization, spacing, punctuation and run-on sentences.</li>
+<li>Facts vs. rumours: sources, dates, figures and citations count for you. Hearsay phrases like "everyone knows" and unsupported absolutes count against you.</li>
+<li>Individualism: personal voice, word variety, varied sentence openings, and clichés.</li>
+<li>Structure: paragraphs, sentence length and transition words.</li></ul></div>
+</div>
+
+<h2>Recommended prompts</h2>
+<p class="hint" style="margin-top:4px">Choose a prompt to carry it over to the writing page.</p>
+<div class="prompts" id="prompts"></div>
+</section>
+
+<!-- WRITE -->
+<section id="v-write" hidden>
+<h1 style="font-size:2.2rem;margin-bottom:6px">Write &amp; upload</h1>
+<p class="hint" style="margin-bottom:16px">Add a file, paste text, or both. Word and text files fill the box automatically.</p>
+<details class="how"><summary>Rules and how your essay is scored</summary><ul>
+<li>Four criteria, each rated 0 to 5: grammar (30%), facts vs. rumours (30%), individualism (20%), structure (20%).</li>
+<li>Write at least 50 words and name your sources.</li>
+<li>The checker looks for patterns. It can't confirm a claim is true, so verify key facts yourself.</li></ul></details>
+<div class="banner" id="banner" hidden><div><strong>Your prompt:</strong> <span id="ptext"></span></div><button class="btn alt" id="pclear" style="padding:6px 14px">Remove</button></div>
+<div class="card">
+<div class="drop" id="drop" tabindex="0" role="button" aria-label="Choose a file to upload">
+<span style="font-size:2rem" aria-hidden="true">🌊</span>
+<strong>Drop a file here or choose one</strong>
+<span class="hint">PDF, Word (.docx) or text (.txt)</span>
+<input type="file" id="file" accept=".pdf,.doc,.docx,.txt" multiple hidden>
+</div>
+<div class="chips" id="chips"></div>
+<label for="essay">Or paste your essay</label>
+<textarea id="essay" maxlength="50000" placeholder="Start writing or paste your essay here…"></textarea>
+<div class="row">
+<span class="count" id="count">0 / 50,000 characters</span>
+<span style="display:flex;gap:8px"><button class="btn alt" id="clear">Clear</button><button class="btn" id="send">Get feedback</button></span>
+</div>
+<div class="msg" id="msg" role="status"></div>
+<div class="res" id="results" hidden></div>
+</div>
+</section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+<script>
+const $=id=>document.getElementById(id), MAX=50000;
+const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
+let user=store.get('tp_user'), mode='in', prompt_=null, files=[];
+
+// bubbles
+const bw=$('bubbles');for(let i=0;i<14;i++){const b=document.createElement('span');b.className='bub';const s=8+Math.random()*26;b.style.cssText=`left:${Math.random()*100}%;width:${s}px;height:${s}px;animation-duration:${14+Math.random()*16}s;animation-delay:-${Math.random()*20}s`;bw.appendChild(b)}
+
+// prompts
+const P=[
+['⚖️','Argumentative',['Should schools replace homework with in-class project time?','Is social media doing more harm than good for teenagers?']],
+['🪞','Personal statement',['Describe a moment that changed how you see yourself.','What would you want a university community to know about you?']],
+['🐚','Narrative',['Tell the story of a day when nothing went as planned.','Write about a place you return to in memory.']],
+['🔍','Analytical',['How does a single symbol shape the meaning of a book you have read?','Analyze why a historical decision had lasting consequences.']],
+['🪸','Compare & contrast',['Compare life in a city and in a small town.','Contrast two ways of learning: online and in person.']],
+['🌅','Reflective',['What is a mistake you are glad you made?','How has a failure taught you more than a success?']],
+['📣','Persuasive',['Convince your town to protect one local green space.','Make the case for a four-day school week.']],
+['🔬','Research paper',['How is technology changing the way people study oceans?','Investigate a solution to a problem facing your community.']]
+];
+const pw=$('prompts');
+P.forEach(([ic,name,list])=>{const c=document.createElement('div');c.className='card';const h=document.createElement('h3');h.textContent=ic+' '+name;const ul=document.createElement('ul');
+list.forEach(t=>{const li=document.createElement('li');const p=document.createElement('span');p.textContent=t;const b=document.createElement('button');b.textContent='Use this prompt';b.onclick=()=>{prompt_=t;setPrompt();go('write')};li.append(p,b);ul.appendChild(li)});
+c.append(h,ul);pw.appendChild(c)});
+function setPrompt(){$('banner').hidden=!prompt_;$('ptext').textContent=prompt_||''}
+$('pclear').onclick=()=>{prompt_=null;setPrompt()};
+
+// routing
+function go(v){location.hash=v;render()}
+function render(){
+ let v=(location.hash||'').slice(1);
+ if(!user)v='auth';else if(v!=='write')v='home';
+ ['auth','home','write'].forEach(n=>$('v-'+n).hidden=n!==v);
+ $('nav').hidden=!user;
+ document.querySelectorAll('[data-go]').forEach(b=>{if(b.closest('nav'))b.setAttribute('aria-current',b.dataset.go===v?'page':'false')});
+ if(user)$('who').textContent=user.name||'sailor';
+ window.scrollTo(0,0);
+}
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>go(b.dataset.go));
+window.addEventListener('hashchange',render);
+
+// auth
+function setMode(m){mode=m;$('t-in').setAttribute('aria-selected',m==='in');$('t-up').setAttribute('aria-selected',m==='up');$('nameRow').hidden=m==='in';$('authbtn').textContent=m==='in'?'Log in':'Create account';$('pw').autocomplete=m==='in'?'current-password':'new-password';$('autherr').textContent=''}
+$('t-in').onclick=()=>setMode('in');$('t-up').onclick=()=>setMode('up');
+$('authbtn').onclick=()=>{
+ const n=$('name').value.trim(),e=$('email').value.trim(),p=$('pw').value;
+ let err='';
+ if(mode==='up'&&!n)err='Enter your name to sign up.';
+ else if(!/^\S+@\S+\.\S+$/.test(e))err='Enter a valid email address, like you@example.com.';
+ else if(p.length<6)err='Use a password with at least 6 characters.';
+ $('autherr').textContent=err;if(err)return;
+ const saved=store.get('tp_acct_'+e.toLowerCase());
+ user={name:mode==='up'?n:(saved&&saved.name)||e.split('@')[0],email:e};
+ if(mode==='up')store.set('tp_acct_'+e.toLowerCase(),{name:n});
+ store.set('tp_user',user);$('pw').value='';go('home');
+};
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&!$('v-auth').hidden)$('authbtn').click()});
+$('out').onclick=()=>{store.del('tp_user');user=null;location.hash='';render()};
+
+// writing
+const ta=$('essay');
+function count(){const n=ta.value.length;$('count').textContent=n.toLocaleString()+' / 50,000 characters';$('count').classList.toggle('warn',n>=MAX*0.95)}
+ta.addEventListener('input',count);
+$('clear').onclick=()=>{ta.value='';files=[];chips();count();$('msg').textContent=''};
+function chips(){const c=$('chips');c.textContent='';files.forEach((f,i)=>{const d=document.createElement('span');d.className='chip';d.textContent=f.name+' ('+Math.max(1,Math.round(f.size/1024))+' KB)';const x=document.createElement('button');x.textContent='×';x.setAttribute('aria-label','Remove '+f.name);x.onclick=()=>{files.splice(i,1);chips()};d.appendChild(x);c.appendChild(d)})}
+function addText(t){const cur=ta.value;const joined=(cur?cur+'\n\n':'')+t;ta.value=joined.slice(0,MAX);count();if(joined.length>MAX)$('msg').textContent='Your text was trimmed to the 50,000 character limit.'}
+async function handle(list){
+ $('msg').textContent='';
+ for(const f of list){
+  const ext=(f.name.split('.').pop()||'').toLowerCase();
+  if(!['pdf','doc','docx','txt'].includes(ext)){$('msg').textContent=f.name+' isn\'t supported. Use PDF, Word or TXT files.';continue}
+  if(f.size>20*1024*1024){$('msg').textContent=f.name+' is over 20 MB. Try a smaller file.';continue}
+  files.push(f);
+  try{
+   if(ext==='txt')addText(await f.text());
+   else if(ext==='docx'&&window.mammoth){const r=await mammoth.extractRawText({arrayBuffer:await f.arrayBuffer()});addText(r.value.trim())}
+   else if(ext==='pdf'||ext==='doc')$('msg').textContent=f.name+' is attached. Text from PDF and .doc files isn\'t previewed here; paste it in the box if you want to edit it.';
+  }catch(e){$('msg').textContent='Couldn\'t read '+f.name+'. Try re-saving it or pasting the text.'}
+ }
+ chips();
+}
+const drop=$('drop'),fi=$('file');
+drop.onclick=()=>fi.click();
+drop.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();fi.click()}};
+fi.onchange=()=>{handle([...fi.files]);fi.value=''};
+['dragover','dragenter'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.add('over')}));
+['dragleave','drop'].forEach(ev=>drop.addEventListener(ev,e=>{e.preventDefault();drop.classList.remove('over')}));
+drop.addEventListener('drop',e=>handle([...e.dataTransfer.files]));
+
+const esc=x=>String(x).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const rnd=n=>Math.max(0,Math.min(5,Math.round(n*2)/2));
+const verdict=v=>v>=4.5?'Excellent':v>=3.5?'Strong':v>=2.5?'Fair':v>=1.5?'Needs work':'Weak';
+const uniq=a=>[...new Set(a)];
+function analyze(t){
+ const words=t.match(/[A-Za-z']+/g)||[],n=words.length,low=t.toLowerCase();
+ const sents=t.split(/(?<=[.!?])\s+/).filter(x=>x.trim()),paras=t.split(/\n\s*\n/).filter(x=>x.trim());
+ const hits=(re,src)=>(src||t).match(re)||[];
+ // grammar
+ const g=[],gi=[];let gc=0;
+ const add=(label,items,show)=>{if(items.length){gc+=items.length;g.push(items.length+' × '+label+(show?': “'+esc(show(items[0]).trim().slice(0,45))+'”':''))}};
+ add('sentence starting with a lowercase letter',sents.filter(x=>/^[a-z]/.test(x.trim())),x=>x);
+ add('lowercase "i" used as a pronoun',hits(/(^|[\s(])i(?=[\s,.'!?])/g),x=>x);
+ add('repeated word',hits(/\b([A-Za-z]+)\s+\1\b/gi),x=>x);
+ add('spelling or wording slip',hits(/\b(alot|definately|recieve|seperate|untill|wich|teh|occured|becuase|thier|could of|should of|would of|your welcome|dont|cant|wont|doesnt|isnt)\b/gi),x=>x);
+ add('run-on sentence (over 45 words)',sents.filter(x=>(x.match(/\S+/g)||[]).length>45),x=>x);
+ add('spacing or punctuation slip',hits(/\s+[,.!?;:]|,[A-Za-z]/g),x=>x);
+ add('paragraph without closing punctuation',paras.filter(x=>!/[.!?"”')]\s*$/.test(x.trim())),x=>x.slice(-30));
+ const gs=rnd(5-gc/n*100*0.9);
+ if(!g.length)g.push('No common slips found.');
+ // facts vs rumours
+ const rum=hits(/\b(they say|people say|everyone knows|everybody knows|i heard|i've heard|rumou?rs?|allegedly|supposedly|apparently|some say|it is said|word is|a friend told me)\b/g,low);
+ const abs=hits(/\b(always|never|nobody|proven fact|all people)\b/g,low);
+ const ev=hits(/\b(according to|studies|study|research|survey|reported|statistics|published|journal|experts?|evidence|found that|source|data)\b/g,low).length+hits(/\b(1[5-9]\d\d|20\d\d)\b/g).length+hits(/\d+(\.\d+)?\s?%/g).length+hits(/https?:\/\/\S+|\([A-Z][A-Za-z]+,? \d{4}\)|\[\d+\]/g).length;
+ const fs=rnd(1+Math.min(ev/n*250,5)*0.8-rum.length*0.8-abs.length*0.15);
+ const f=[ev+' evidence signal'+(ev===1?'':'s')+' found (sources, dates, figures, citations).'];
+ if(ev===0)f.push('No sources or figures found. Add at least one named source for your main claims.');
+ if(rum.length)f.push('Hearsay-style phrases: '+esc(uniq(rum).join(', '))+'. Replace with a named source or mark them as opinion.');
+ if(abs.length)f.push('Absolute words need support: '+esc(uniq(abs).join(', '))+'.');
+ // individualism
+ const fp=hits(/\b(I|my|me|myself|I'm|I've)\b/gi).length,smp=words.slice(0,400).map(w=>w.toLowerCase());
+ const ttr=new Set(smp).size/smp.length,starts=new Set(sents.map(x=>(x.match(/[A-Za-z']+/)||[''])[0].toLowerCase())).size/sents.length;
+ const cl=hits(/\b(at the end of the day|in today's society|since the dawn of time|think outside the box|only time will tell|last but not least|it goes without saying|double-edged sword|stood the test of time|in this day and age)\b/g,low);
+ const is=rnd(Math.min(fp/n*100/2.5,1)*1.5+Math.max(0,Math.min((ttr-.4)/.3,1))*2+Math.max(0,Math.min((starts-.4)/.4,1))*1.5-cl.length*.5);
+ const iv=[fp+' personal-voice word'+(fp===1?'':'s')+' (I, my, me).','Word variety: '+Math.round(ttr*100)+'% of your first words are different.','Sentence openings: '+Math.round(starts*100)+'% start differently.'];
+ if(cl.length)iv.push('Clichés to replace with your own words: '+esc(uniq(cl).join(', '))+'.');
+ else if(is<3)iv.push('Add a personal example or a viewpoint only you could write.');
+ // structure
+ const avg=n/sents.length,tr=hits(/\b(however|therefore|moreover|furthermore|for example|for instance|in addition|as a result|consequently|in contrast|on the other hand|first|second|finally)\b/g,low).length;
+ const ss=rnd(Math.min(paras.length,5)/5*2+(avg>=10&&avg<=26?1.5:avg>=7&&avg<=32?.8:.2)+Math.min(tr/n*250,3)/3*1.5);
+ const st=[paras.length+' paragraph'+(paras.length===1?'':'s')+'; '+Math.round(avg)+' words per sentence on average.',tr+' transition word'+(tr===1?'':'s')+' found.'];
+ if(paras.length<3)st.push('Aim for at least an introduction, a body and a conclusion.');
+ return [
+  {name:'Grammar and mechanics',imp:1,w:.3,s:gs,d:g},
+  {name:'Facts vs. rumours',imp:1,w:.3,s:fs,d:f},
+  {name:'Individualism',w:.2,s:is,d:iv},
+  {name:'Structure and clarity',w:.2,s:ss,d:st}];
+}
+$('send').onclick=()=>{
+ const t=ta.value.trim(),r=$('results');r.hidden=true;
+ if(!t&&!files.length){$('msg').textContent='Add a file or some text first.';return}
+ if(!t){$('msg').textContent='Your attached file can\'t be read here. Paste its text into the box to get scored.';return}
+ const n=(t.match(/[A-Za-z']+/g)||[]).length;
+ if(n<50){$('msg').textContent='Write at least 50 words so there is enough to score (you have '+n+').';return}
+ $('msg').textContent='';
+ const c=analyze(t),tot=c.reduce((a,x)=>a+x.s*x.w,0);
+ r.innerHTML='<div class="overall"><b>'+tot.toFixed(1)+'</b><span>out of 5 overall: <strong>'+verdict(tot)+'</strong></span></div>'+
+  c.map(x=>'<div class="rc"><header><h3>'+x.name+(x.imp?'<span class="tag">important</span>':'')+'</h3><strong>'+x.s.toFixed(1)+' / 5, '+verdict(x.s)+'</strong></header><div class="meter" role="img" aria-label="'+x.s+' out of 5"><i style="width:'+x.s*20+'%"></i></div><ul>'+x.d.map(d=>'<li>'+d+'</li>').join('')+'</ul></div>').join('')+
+  '<p class="hint">This is an automatic check of writing patterns. It can\'t confirm whether a claim is true, so verify key facts yourself.</p>';
+ r.hidden=false;r.scrollIntoView({behavior:'smooth',block:'start'});
+};
+count();setPrompt();render();
+</script>
+</body>
+</html>
